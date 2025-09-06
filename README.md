@@ -5,8 +5,11 @@ versions 1.0.X, as they were used for countless tape outs for the Google MPW and
 Efabless chipIgnite shuttles. Only critical bugfixes will be merged at this
 point. The intent is that tape-outs on older shuttles may be reproduced.
 
+For all newer designs, kindly check out the successor to the OpenLane flow,
+the LibreLane flow infrastructure (which is backwards-compatible.)
+
 <p align="center">
-    <a href="https://github.com/librelane/librelane"><img src="./docs/_static/librelane_banner.svg" width="50%" alt="LibreLane: Meet the successor to OpenLane — community-driven and rewritten from scratch with a modular architecture. Configure your designs using one file just like OpenLane, or use Python to implement advanced flows."></a>
+    <a href="https://github.com/librelane/librelane"><img src="./docs/_static/librelane_banner.svg" width="80%" alt="LibreLane: Meet the successor to OpenLane — community-driven and rewritten from scratch with a modular architecture. Configure your designs using one file just like OpenLane, or use Python to implement advanced flows."></a>
 </p>
 
 ---
