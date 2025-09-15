@@ -18,10 +18,6 @@ Please do not write new shell scripts, no matter how trivial.
 ### Python
 Python code should run on Python 3.6+.
 
-You will need to ensure that your Python code passes linting with the tools and plugins in [`requirements_lint.txt`](https://github.com/The-OpenROAD-Project/OpenLane/tree/master/requirements_lint.txt). The commands are simply `black .` and `flake8 .`. Please fix all warnings.
-
-For new code, please follow [PEP-8 naming conventions](https://peps.python.org/pep-0008/#naming-conventions). The linters do not enforce them just yet because of the corpus of existing code that does not do that, but they will in the future.
-
 Do all arithmetic either in integers or using the Python [`decimal`](https://docs.python.org/3.6/library/decimal.html) library. All (numerous) existing uses of IEEE-754 are bugs we are interested in fixing.
 
 ## Yosys, OpenROAD and Magic Scripts

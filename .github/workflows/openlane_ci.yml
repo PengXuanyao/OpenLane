@@ -291,18 +291,18 @@ jobs:
         run: |
           echo "TAG_LIST=" >> $GITHUB_ENV
 
-      - name: Docker Tag (Main Branch Hashes)
-        if: ${{ env.PUSHING == '1' && github.event_name == 'push' && env.BRANCH_NAME == env.MAIN_BRANCH }}
-        run: |
-          echo "TAG_LIST=$TAG_LIST ${{ env.GIT_COMMIT_HASH }}" >> $GITHUB_ENV
-
       - name: Docker Tag (Branches)
         if: ${{ env.PUSHING == '1' && github.event_name == 'push' }}
         run: |
           echo "TAG_LIST=$TAG_LIST ${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
 
-      - name: Docker Push (Version Tag/Latest)
-        if: ${{ env.PUSHING == '1' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && env.NEW_TAG != 'NO_NEW_TAG' }}
+      - name: Docker Tag (Main Branch Hashes)
+        if: ${{ env.PUSHING == '1' && github.event_name == 'push' && env.BRANCH_NAME == vars.MAIN_BRANCH }}
+        run: |
+          echo "TAG_LIST=$TAG_LIST ${{ env.GIT_COMMIT_HASH }}" >> $GITHUB_ENV
+
+      - name: Docker Push (Main Branch Tags/Latest)
+        if: ${{ env.PUSHING == '1' && github.event_name == 'push' && env.BRANCH_NAME == vars.MAIN_BRANCH && env.NEW_TAG != '' }}
         run: |
           echo "TAG_LIST=$TAG_LIST ${{ env.NEW_TAG }} latest" >> $GITHUB_ENV
 

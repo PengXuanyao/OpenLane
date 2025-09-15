@@ -91,18 +91,18 @@ ENV_COMMAND = $(ENV_START) $(OPENLANE_IMAGE_NAME)-$(DOCKER_ARCH)
 all: get-openlane pdk
 
 .PHONY: openlane
-openlane: venv/created
+openlane: venv/manifest.txt
 	@PYTHON_BIN=$(PWD)/venv/bin/$(PYTHON_BIN) $(MAKE) -C docker openlane
 
 .PHONY: openlane-and-push-tools
 openlane-and-push-tools: venv/created
 	@PYTHON_BIN=$(PWD)/venv/bin/$(PYTHON_BIN) BUILD_IF_CANT_PULL=1 BUILD_IF_CANT_PULL_THEN_PUSH=1 $(MAKE) -C docker openlane
 
-pull-openlane:
-	@docker pull "$(OPENLANE_IMAGE_NAME)"
-
 get-openlane:
 	@$(MAKE) pull-openlane || $(MAKE) openlane
+
+pull-openlane:
+	@docker pull "$(OPENLANE_IMAGE_NAME)"
 
 .PHONY: mount
 mount:
@@ -128,11 +128,11 @@ start-build-env:  venv/manifest.txt
 	bash -c "bash --rcfile <(cat ~/.bashrc ./venv/bin/activate)"
 
 venv: venv/manifest.txt
-venv/manifest.txt: ./requirements.txt ./requirements_dev.txt ./requirements_lint.txt ./dependencies/python/precompile_time.txt ./dependencies/python/run_time.txt 
+venv/manifest.txt: ./requirements.txt ./dependencies/python/precompile_time.txt ./dependencies/python/run_time.txt 
 	rm -rf ./venv
 	$(PYTHON_BIN) -m venv ./venv
 	PYTHONPATH= ./venv/bin/$(PYTHON_BIN) -m pip install --upgrade --no-cache-dir pip
-	PYTHONPATH= ./venv/bin/$(PYTHON_BIN) -m pip install --upgrade --no-cache-dir -r ./requirements_dev.txt
+	PYTHONPATH= ./venv/bin/$(PYTHON_BIN) -m pip install --upgrade --no-cache-dir -r ./requirements.txt
 	PYTHONPATH= ./venv/bin/$(PYTHON_BIN) -m pip freeze > $@
 
 DLTAG=custom_design_List
