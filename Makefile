@@ -19,8 +19,6 @@ ENGINE ?= podman
 
 DOCKER_OPTIONS = $(shell $(PYTHON_BIN) ./env.py docker-config)
 
-DOCKER_ARCH ?= $(shell $(PYTHON_BIN) ./docker/current_platform.py)
-
 # Allow Configuring Memory Limits
 ifneq (,$(DOCKER_SWAP)) # Set to -1 for unlimited
 DOCKER_OPTIONS += --memory-swap=$(DOCKER_SWAP)
@@ -85,7 +83,7 @@ ENV_START = $(ENGINE) run --rm\
 	$(STD_CELL_OPTS)\
 	$(DOCKER_OPTIONS)
 
-ENV_COMMAND = $(ENV_START) $(OPENLANE_IMAGE_NAME)-$(DOCKER_ARCH)
+ENV_COMMAND = $(ENV_START) $(OPENLANE_IMAGE_NAME)
 
 .DEFAULT_GOAL := all
 
@@ -109,7 +107,7 @@ pull-openlane:
 .PHONY: mount
 mount:
 	cd $(OPENLANE_DIR) && \
-		$(ENV_START) -ti $(OPENLANE_IMAGE_NAME)-$(DOCKER_ARCH)
+		$(ENV_START) -ti $(OPENLANE_IMAGE_NAME)
 
 .PHONY: pdk
 pdk: venv/manifest.txt
