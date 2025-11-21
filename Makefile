@@ -15,6 +15,8 @@ PYTHON_BIN ?= python3
 
 OPENLANE_DIR ?= $(shell pwd)
 
+ENGINE ?= podman
+
 DOCKER_OPTIONS = $(shell $(PYTHON_BIN) ./env.py docker-config)
 
 DOCKER_ARCH ?= $(shell $(PYTHON_BIN) ./docker/current_platform.py)
@@ -75,7 +77,7 @@ endif
 
 # ./designs is mounted over ./install so env.tcl is not found inside the Docker
 # container if the user had previously installed it.
-ENV_START = docker run --rm\
+ENV_START = $(ENGINE) run --rm\
 	-v $(OPENLANE_DIR):/openlane\
 	-v $(OPENLANE_DIR)/designs:/openlane/install\
 	-v $(HOME):$(HOME)\
@@ -102,7 +104,7 @@ get-openlane:
 	@$(MAKE) pull-openlane || $(MAKE) openlane
 
 pull-openlane:
-	@docker pull "$(OPENLANE_IMAGE_NAME)"
+	@$(ENGINE) pull "$(OPENLANE_IMAGE_NAME)"
 
 .PHONY: mount
 mount:
